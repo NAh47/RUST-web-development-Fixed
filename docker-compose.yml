@@ -18,9 +18,10 @@ services:
       timeout: 5s
       retries: 5
 
-  rust-app:
+  backend:
     build:
-      context: .
+      context: ./backend
+      dockerfile: Dockerfile
     environment:
       PG_DBNAME: rustdb
       PG_HOST: db
@@ -28,6 +29,16 @@ services:
       PG_PASSWORD: rustwebdev
     ports:
       - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
     depends_on:
       db:
         condition: service_healthy
