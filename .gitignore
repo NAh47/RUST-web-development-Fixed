@@ -1,0 +1,28 @@
+# Rust
+target/
+Cargo.lock
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*.swo
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# VSCode
+.vscode/
+
+# System Files
+.DS_Store
+*.bak
+*.tmp
+*.swp

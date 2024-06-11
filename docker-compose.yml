@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: rustdb
+      POSTGRES_USER: NahomRust
+      POSTGRES_PASSWORD: rustwebdev
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U NahomRust -d rustdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rust-app:
+    build:
+      context: .
+    environment:
+      PG_DBNAME: rustdb
+      PG_HOST: db
+      PG_USER: NahomRust
+      PG_PASSWORD: rustwebdev
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db-data:
